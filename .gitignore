@@ -217,4 +217,8 @@ __marimo__/
 # Streamlit
 .streamlit/secrets.toml
 
-data/
+# The prepared workshop data is kept in the repository, but generated outputs
+# from the proof-of-concept scripts should not be committed.
+data/test/
+pneumoniamnist_224.npz
+retinamnist_224.npz
