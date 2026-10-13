@@ -82,41 +82,46 @@ education and are not intended for clinical decision-making.
 
 ## Checklist
 
-- [ ] Keep activity scripts small and self-contained; functions should map cleanly to notebook cells. Use simple imports and constants, including `MODEL_NAME = "medgemma1.5:latest"` and a fixed Ollama URL; do not configure new activity scripts through environment variables.
-- [ ] Continue support/verification scripts from `08_*.py`:
-  - [ ] `08_audit_workshop_image_set.py`: check label coverage; load and display prepared images without revealing labels; show the label key separately.
-  - [ ] `09_probe_multimodal_pairs.py`: compare image-only and image-plus-context responses to screen and verify a deliberately constructed fictional case.
-- [ ] Create VLM activity scripts from `101_*.py`:
-  - [ ] `101_describe_medical_image.py`: plain-language image description.
-  - [ ] `102_classify_medical_image.py`: classify chest X-ray and retinal examples; display predictions and reveal labels afterward.
-  - [ ] `103_visual_question_answering.py`: display image, question, and answer.
-  - [ ] `104_evidence_linked_interpretation.py`: visible supporting features, uncertainty, and image limitations.
-  - [ ] `105_structured_image_findings.py`: extract and validate a consistent set of findings.
-  - [ ] `106_compare_image_examples.py`: compare examples from different cases.
-  - [ ] `107_contextualized_image_interpretation.py`: interpret an image with a deliberately linked fictional case.
-  - [ ] `108_compare_modalities.py`: compare image-only, record-only, and combined responses.
-  - [ ] `109_check_cross_modal_consistency.py`: identify agreement, mismatch, or insufficient linkage.
-  - [ ] `110_test_context_relevance.py`: compare relevant context with irrelevant or distracting details.
-  - [ ] `111_generate_follow_up_questions.py`: suggest information needed to resolve uncertainty.
-  - [ ] `112_create_clinical_handoff.py`: create a concise clinician-facing handoff.
-  - [ ] `113_restate_for_patient.py`: restate supplied findings in plain language.
-  - [ ] `114_test_uncertainty_and_abstention.py`: probe responses to incomplete or ambiguous input.
-  - [ ] `115_review_unsupported_claims.py`: present model claims for human review against source material.
-  - [ ] `116_prioritize_for_review.py`: demonstrate relative prioritization, clearly marked as unvalidated.
-  - [ ] `117_generate_possible_interpretations.py`: generate possible interpretations and evidence needed to assess them.
-- [ ] Create structured-data extraction activity scripts:
-  - [ ] `118_extract_clinical_facts.py`: extract facts with exact supporting quotes and validate fields.
-  - [ ] `119_extract_negation_and_time.py`: distinguish affirmed, denied, historical, current, and unstated facts.
-  - [ ] `120_normalize_facts_to_schema.py`: map explicit note content to a small predefined JSON schema.
-  - [ ] `121_audit_extracted_data.py`: review source support, omissions, and unsupported extracted values.
-- [ ] Run script syntax checks and local MedGemma examples; note model, prompt, and data limitations for notebook use.
+- [x] Keep activity scripts small and self-contained; functions should map cleanly to notebook cells. Use simple imports and constants, including `MODEL_NAME = "medgemma1.5:latest"` and a fixed Ollama URL; do not configure new activity scripts through environment variables.
+- [x] Create support/verification scripts from `08_*.py`:
+  - [x] `08_audit_workshop_image_set.py`: check label coverage; save label-hidden grids; keep the label key separate.
+  - [x] `09_probe_multimodal_pairs.py`: compare image-only and image-plus-context responses for fictional cases; use Synthea only as an unlinked control.
+- [x] Create VLM activity scripts from `101_*.py`:
+  - [x] `101_describe_medical_image.py`: plain-language image description.
+  - [x] `102_classify_medical_image.py`: classify chest X-ray and retinal examples; display predictions and reveal labels afterward.
+  - [x] `103_visual_question_answering.py`: display image, question, and answer.
+  - [x] `104_evidence_linked_interpretation.py`: visible supporting features, uncertainty, and image limitations.
+  - [x] `105_structured_image_findings.py`: extract and validate a consistent set of findings.
+  - [x] `106_compare_image_examples.py`: compare examples from different cases.
+  - [x] `107_contextualized_image_interpretation.py`: interpret an image with a deliberately linked fictional case.
+  - [x] `108_compare_modalities.py`: compare image-only, record-only, and combined responses.
+  - [x] `109_check_cross_modal_consistency.py`: identify agreement, mismatch, or insufficient linkage.
+  - [x] `110_test_context_relevance.py`: compare relevant context with irrelevant or distracting details.
+  - [x] `111_generate_follow_up_questions.py`: suggest information needed to resolve uncertainty; parse `QUESTION:` lines.
+  - [x] `112_create_clinical_handoff.py`: create a concise clinician-facing handoff.
+  - [x] `113_restate_for_patient.py`: restate supplied findings in plain language.
+  - [x] `114_test_uncertainty_and_abstention.py`: probe responses to incomplete or ambiguous input.
+  - [x] `115_review_unsupported_claims.py`: present model claims for human review against source material.
+  - [x] `116_prioritize_for_review.py`: demonstrate relative prioritization, with parsing checks and an explicit unvalidated-output caveat.
+  - [x] `117_generate_possible_interpretations.py`: generate possible interpretations and evidence needed to assess them.
+- [x] Create structured-data extraction activity scripts using labeled plain text and local parsing:
+  - [x] `118_extract_clinical_facts.py`: extract facts with supporting quotes and parse the labels.
+  - [x] `119_extract_negation_and_time.py`: distinguish affirmed, denied, historical, current, and unstated facts.
+  - [x] `120_normalize_facts_to_schema.py`: map explicit note content to labeled fields and parse them locally.
+  - [x] `121_audit_extracted_data.py`: review source support, omissions, and unsupported extracted values.
+- [x] Align `05_extract_fields_from_clinical_note.py` with labeled plain-text output and local parsing.
+- [x] Syntax-check scripts 05, 08–09, and 101–121; smoke-check input paths, saved previews, and parsers.
+- [ ] Run and review remaining MedGemma examples during notebook rehearsal; record model, prompt, and data limitations.
 
 ## Comments and remarks
 
 - The two workshops total 120 minutes (90-minute VLM workshop and 30-minute structured extraction workshop); activity categories need not be a strict boundary. Prepare more optional activities than can fit and let the facilitator select.
 - The prepared image set is being handled separately. Hide labels during prediction; `07_shortlist_medgemma_images.py` selects examples using MedGemma agreement, so those samples are curated demonstrations, not a representative accuracy sample.
+- Image previews are saved to `data/test/`; Matplotlib figures are closed without `plt.show()`.
 - Existing Synthea summaries and MedMNIST images are independently selected, not the same patient. For case-level multimodal interpretation, construct and clearly identify a fictional linked vignette, then verify the candidate pairing and responses with MedGemma. Use unlinked examples only to discuss linkage/consistency limits.
-- Prefer a small custom JSON schema with source quotes and explicit “not stated” handling for the 30-minute extraction workshop; avoid full FHIR authoring unless the activity scope changes. Existing scripts `04_summarize_synthea_fhir.py` and `05_extract_fields_from_clinical_note.py` are reusable starting points.
+- For MedGemma structured output, prefer labeled plain text and parse locally; retain the raw response beside parsed fields. Do not require strict JSON schema output. Existing `04_summarize_synthea_fhir.py` remains useful for preparing record summaries; `05_extract_fields_from_clinical_note.py` now uses labeled text.
+- Initial model review (activities 101, 105, 106, 115, 116): outputs included claims needing source review (e.g., inferred age, cardiomegaly/effusion, unrelated disease claims) and malformed repeated priorities. Use these as model-limitations examples, not verified findings.
+- The 09 probe showed that even an explicit “unlinked” instruction does not prevent the model from describing the image as belonging to the record. Preserve the source-linkage warning in any combined-data demonstration.
 - First-pass observations / issues to add after trying the activities:
   - Model or prompt behavior:
   - Data or example suitability:
