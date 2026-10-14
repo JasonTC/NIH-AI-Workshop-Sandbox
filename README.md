@@ -7,8 +7,8 @@ and run one at a time, like notebook cells.
 ## Setup
 
 Prerequisites:
-- [uv](https://docs.astral.sh/uv/getting-started/installation/)
-- [Ollama](https://ollama.com/download)
+- [uv](https://docs.astral.sh/uv/getting-started/installation/): powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"
+- [Ollama](https://ollama.com/download): irm https://ollama.com/install.ps1 | iex
 
 Install the Python dependencies and download the example model:
 
